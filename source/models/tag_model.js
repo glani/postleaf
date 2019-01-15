@@ -3,6 +3,9 @@
 // Node modules
 const Extend = require('extend');
 const Lunr = require('lunr');
+require('../../node_modules/lunr-languages/lunr.stemmer.support.js')(Lunr);
+require('../../node_modules/lunr-languages/lunr.ru.js')(Lunr);
+require('../../node_modules/lunr-languages/lunr.multi.js')(Lunr);
 
 //
 // Converts a model object to a Lunr search index object.
@@ -66,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
       buildSearchIndex: () => {
         // Create an instance of Lunr
         tag.searchIndex = Lunr(function() {
+          this.use(Lunr.multiLanguage('en', 'ru'));
           this.ref('id');
           this.field('heavy', { boost: 10 });
           this.field('light');

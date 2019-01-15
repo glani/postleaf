@@ -4,6 +4,9 @@
 const Extend = require('extend');
 const Moment = require('moment');
 const Lunr = require('lunr');
+require('../../node_modules/lunr-languages/lunr.stemmer.support.js')(Lunr);
+require('../../node_modules/lunr-languages/lunr.ru.js')(Lunr);
+require('../../node_modules/lunr-languages/lunr.multi.js')(Lunr);
 const Striptags = require('striptags');
 
 //
@@ -100,6 +103,7 @@ module.exports = (sequelize, DataTypes) => {
       buildSearchIndex: () => {
         // Create an instance of Lunr
         post.searchIndex = Lunr(function() {
+          this.use(Lunr.multiLanguage('en', 'ru'));
           this.ref('id');
           this.field('heavy', { boost: 10 });
           this.field('light');
