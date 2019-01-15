@@ -34,7 +34,7 @@ To install Postleaf in a development environment, follow these instructions.
 1. Open a terminal and clone the project and default theme:
   ```
   git clone https://github.com/Postleaf/postleaf.git
-  git clone https://github.com/Postleaf/empower-theme.git themes/empower-theme
+  git clone https://github.com/Postleaf/empower-theme.git postleaf/themes/empower-theme
   ```
 2. Make a copy of `.env.example` and name it `.env`. Open it and change `AUTH_SECRET` to a random string to secure your app. Then add your SMTP credentials so email can be sent. You also need to set the `APP_URL` to `http://localhost:3000/`.
 3. Install dependencies and run the build script:
