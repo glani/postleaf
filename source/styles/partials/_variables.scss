@@ -125,6 +125,9 @@ $tooltip-bg: $postleaf-black;
 $tooltip-color: white;
 $tooltip-opacity: 1;
 
+$gray-light: #bdbdbd;
+
 // Bootstrap vars and mixins
+@import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";

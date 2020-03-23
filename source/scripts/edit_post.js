@@ -277,6 +277,7 @@ $(() => {
       { code: '{@head/}', selector: '[data-postleaf-editor="styles"]' },
       { code: '{@foot/}', selector: '[data-postleaf-editor="scripts"]' },
       { code: '{@title editable="true"/}', selector: '[data-postleaf-region="title"]' },
+      { code: '{@subTitle editable="true"/}', selector: '[data-postleaf-region="subtitle"]' },
       { code: '{@content editable="true/}', selector: '[data-postleaf-region="content"]' }
     ]) {
       if(!$(helper.selector, frameDoc).length) {
@@ -319,6 +320,18 @@ $(() => {
       onReady: () => {
         makeClean();
         titleEditor.focus();
+      }
+    });
+
+    // Sub Title region
+    subTitleEditor = new Editor({
+      element: $('[data-postleaf-region="subtitle"]', frameDoc).get(0),
+      baseUrl: $('#editor-frame').attr('data-base-url'),
+      placeholder: $('#editor-frame').attr('data-default-subtitle'),
+      textOnly: true,
+      allowNewlines: false,
+      onReady: () => {
+        makeClean();
       }
     });
 
@@ -430,6 +443,7 @@ $(() => {
 
           // Reinsert title/content elements
           $('[data-postleaf-region="title"]', frameDoc).replaceWith(title);
+          $('[data-postleaf-region="subtitle"]', frameDoc).replaceWith(subTitleEditor);
           $('[data-postleaf-region="content"]', frameDoc).replaceWith(content);
 
           // Remove the frame
@@ -511,6 +525,7 @@ $(() => {
   function serializePost() {
     return {
       title: titleEditor.isReady ? titleEditor.getContent() : null,
+      subtitle: subTitleEditor.isReady ? subTitleEditor.getContent() : null,
       content: contentEditor.isReady ? contentEditor.getContent() : null,
       slug: $('#slug').val() || Postleaf.Slug(titleEditor.getContent()),
       'published-at': $('#pub-date').val() + ' ' + $('#pub-time').val(),
@@ -749,6 +764,7 @@ $(() => {
   let dropzoneTimeout;
   let frameDoc;
   let titleEditor;
+  let subTitleEditor;
   let wordCountTimeout;
 
   // Initial load

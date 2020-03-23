@@ -1,9 +1,9 @@
 .box{background:#fff;border-radius:.25rem;box-shadow:0 .1rem .1rem rgba(39,47,51,.05);padding:3rem;margin-bottom:2rem}
 .box>:last-child{margin-bottom:0}
-@media (max-width:767px){
+@media (max-width:767.98px){
 .box{padding:2rem}
 }
-@media (max-width:575px){
+@media (max-width:575.98px){
 .box{padding:1.5rem}
 }
 .card-cover{position:relative}

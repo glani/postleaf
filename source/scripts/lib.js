@@ -2,7 +2,7 @@
 'use strict';
 
 // Globals
-window.jQuery = window.$ = require('jquery');
+window.jQuery = window.$ = window.jquery = require('jquery');
 window.Tether = require('tether');
 window.Postleaf = {
   FileManager: require('../modules/file_manager.js'),
@@ -15,15 +15,16 @@ require('bootstrap');
 // jQuery plugins
 require('@claviska/jquery-ajax-submit/jquery.ajaxSubmit.min.js');
 require('@claviska/jquery-alertable/jquery.alertable.min.js');
-require('@claviska/jquery-animate-css/jquery.animateCSS.min.js');
+require('@claviska/jquery-animate-css/jquery.animateCSS.min.js')(window.jQuery);
 require('@claviska/jquery-announce/jquery.announce.min.js');
 require('@claviska/jquery-offscreen/jquery.offscreen.js');
-require('@claviska/jquery-selectable/jquery.selectable.min.js');
+require('@claviska/jquery-selectable/jquery.selectable.min.js')(window.jQuery);
 require('typeahead.js/dist/typeahead.jquery.min.js');
 require('selectize/dist/js/standalone/selectize.min.js');
 
 // Includes
-require('../modules/includes/admin_menu.js');
+// some problems
+// require('../modules/includes/admin_menu.js');
 require('../modules/includes/ajax_submit_defaults.js');
 require('../modules/includes/alertable_defaults.js');
 require('../modules/includes/dropdown_animations.js');

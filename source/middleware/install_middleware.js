@@ -20,7 +20,7 @@ module.exports = {
     }
 
     // Make the installation view and API endpoint accessible
-    if(req.originalUrl === installUrl || req.originalUrl === apiUrl) {
+    if(MakeUrl.joinFolderPath(req.originalUrl) === installUrl || req.originalUrl === apiUrl) {
       return next();
     }
 

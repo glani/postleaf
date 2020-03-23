@@ -165,6 +165,37 @@
               </div>
             </div>
 
+            <div class="row">
+              {! Facebook !}
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="facebook">{@i18n term="facebook"/}</label>
+                  <input class="form-control" type="url" name="facebook" id="facebook" value="{user.facebook}">
+                </div>
+              </div>
+              <div class="col-lg-6"></div>
+            </div>
+            <div class="row">
+              {! twitter !}
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="twitter">{@i18n term="twitter"/}</label>
+                  <input class="form-control" type="text" name="twitter" id="twitter" value="{user.twitter}">
+                </div>
+              </div>
+              <div class="col-lg-6"></div>
+            </div>
+            <div class="row">
+              {! instagram !}
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="instagram">{@i18n term="instagram"/}</label>
+                  <input class="form-control" type="text" name="instagram" id="instagram" value="{user.instagram}">
+                </div>
+              </div>
+              <div class="col-lg-6"></div>
+            </div>
+
             {! Bio !}
             <div class="form-group">
               <label for="bio">{@i18n term="bio"/}</label>
@@ -185,7 +216,7 @@
                     class="image-control image-control-sm image-control-contain"
                     data-upload-action="{@url type="api" path="uploads"/}"
                     data-thumbnail="500"
-                    {?user.avatar}style="background-image: url('{@url path=user.avatar/}');"{/user.avatar}
+                    {?user.avatar}style="background-image: url('{user.avatar}');"{/user.avatar}
                   >
                     {! Hidden input !}
                     <input type="hidden" name="avatar" value="{user.avatar}">

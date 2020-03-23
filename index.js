@@ -37,14 +37,15 @@ module.exports = function(app, options) {
   // Database
   const Database = require(Path.join(__basedir, 'source/modules/database.js'))(options);
   app.locals.Database = Database;
-  
+
   // Themes stored on app.locals so we can access the configured directory
   const Themes = require(Path.join(__basedir, 'source/modules/themes.js'))(options);
   app.locals.Themes = Themes;
-  
+
   // Stash upload path on app.locals so we can access the configured directory
   app.locals.uploadPath = options.uploadPath || Path.join(__basedir, 'uploads');
-  
+
+  const MakeUrl = require(Path.join(__basedir, 'source/modules/make_url.js'))(app.locals.Settings);
 
   return Promise.resolve()
     // Initialize the database
@@ -83,6 +84,7 @@ module.exports = function(app, options) {
         .use(Compression())
         .use(DynamicImages.processImages)
         .use('/assets', Express.static(Path.join(__basedir, 'assets')))
+        .use(MakeUrl.folder() + '/assets', Express.static(Path.join(__basedir, 'assets')))
         .use('/themes', Express.static(Themes.themePath))
         .use('/uploads', Express.static(app.locals.uploadPath))
         .use(BodyParser.urlencoded({ extended: true, limit: '10mb' }))

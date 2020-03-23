@@ -23,13 +23,13 @@ $(() => {
       let flag = [];
 
       // Filter by statuses
-      $('[data-filter="status"] :checkbox').each(function() {
-        if(this.checked) status.push(this.value);
+      $('[data-filter="status"] :checkbox').each(function () {
+        if (this.checked) status.push(this.value);
       });
 
       // Filter by flags
-      $('[data-filter="flag"] :checkbox').each(function() {
-        if(this.checked) flag.push(this.value);
+      $('[data-filter="flag"] :checkbox').each(function () {
+        if (this.checked) flag.push(this.value);
       });
 
       // Set a cookie to remember post filters
@@ -40,7 +40,7 @@ $(() => {
       flag = flag.length ? flag.join(',') : undefined;
 
       // Fetch posts
-      if(postRequest) postRequest.abort();
+      if (postRequest) postRequest.abort();
       postRequest = $.ajax({
         url: searchAction,
         type: 'GET',
@@ -53,23 +53,23 @@ $(() => {
           render: 'postItems'
         }
       })
-      .done((res) => {
-        postRequest = null;
-        currentPage = page;
-        morePosts = res.totalItems > count * page;
+        .done((res) => {
+          postRequest = null;
+          currentPage = page;
+          morePosts = res.totalItems > count * page;
 
-        // Update the post list
-        if(res.html) {
-          // Reset the list
-          if(page === 1) $('#posts').html('');
+          // Update the post list
+          if (res.html) {
+            // Reset the list
+            if (page === 1) $('#posts').html('');
 
-          // Append posts
-          $('#posts').append(res.html);
-        }
+            // Append posts
+            $('#posts').append(res.html);
+          }
 
-        resolve(res);
-      })
-      .fail((jqXHR) => reject(jqXHR.responseJSON));
+          resolve(res);
+        })
+        .fail((jqXHR) => reject(jqXHR.responseJSON));
     });
   }
 
@@ -79,10 +79,10 @@ $(() => {
   let searchAction = $('[data-search]').attr('data-action');
 
   // Restore post filters from cookie
-  if(Cookie.get('postFilters')) {
+  if (Cookie.get('postFilters')) {
     // Set checked property
     let filters = Cookie.get('postFilters').split(',');
-    $('#post-filter :checkbox').each(function() {
+    $('#post-filter :checkbox').each(function () {
       $(this).prop('checked', filters.includes(this.value));
     });
 
@@ -92,11 +92,17 @@ $(() => {
   }
 
   // Handle post selection
+  $('#posts .post-item').dblclick((event) => {
+    let url = $(event.target).attr('data-edit-action');
+    if (url) {
+      location.href = $(event.target).attr('data-edit-action');
+    }
+  });
   $('#posts')
     .selectable({
       items: '.post-item',
       multiple: true,
-      change: function(values) {
+      change: function (values) {
         let elements = $(this).selectable('getElements');
         let selection = $(this).selectable('getElements', true);
 
@@ -113,11 +119,11 @@ $(() => {
         $('#many-selected').prop('hidden', values.length < 2);
 
         // Update preview
-        if(values.length === 1) {
+        if (values.length === 1) {
           $('#preview').addClass('loading');
           $('#preview-frame')
             .prop('src', $(selection).attr('data-preview-action'))
-            .one('load', function() {
+            .one('load', function () {
               let frame = this;
 
               $('#preview').removeClass('loading');
@@ -142,13 +148,6 @@ $(() => {
         // Toggle posts/empty state
         $('#posts').prop('hidden', elements.length === 0);
         $('#empty').prop('hidden', elements.length !== 0);
-      },
-      doubleClick: (value, el) => {
-        let url = $(el).attr('data-edit-action');
-
-        if(url) {
-          location.href = $(el).attr('data-edit-action');
-        }
       }
     })
     // Trigger change immediately to update initial view
@@ -156,7 +155,7 @@ $(() => {
 
   // Remove selection when clicking outside of a post
   $('main').on('click', (event) => {
-    if(!$(event.target).parents().addBack().is('.post-item')) {
+    if (!$(event.target).parents().addBack().is('.post-item')) {
       $('#posts').selectable('selectNone');
     }
   });
@@ -164,13 +163,13 @@ $(() => {
   // Search
   let lastSearch = '';
   let searchTimeout;
-  $('[data-search]').on('change keyup paste', function() {
+  $('[data-search]').on('change keyup paste', function () {
     let search = this.value;
     let selection = $('#posts').selectable('value');
 
     // Debounce requests as the user types
     clearTimeout(searchTimeout);
-    if(search === lastSearch) return;
+    if (search === lastSearch) return;
     searchTimeout = setTimeout(() => {
       // Run the search
       getPosts(1).then(() => {
@@ -184,14 +183,14 @@ $(() => {
   });
 
   // Infinite scrolling
-  $('#posts').on('scroll', function() {
+  $('#posts').on('scroll', function () {
     let div = this;
     let scrollPos = $(div).scrollTop() + $(div).height();
     let scrollHeight = div.scrollHeight;
     let threshold = $(window).height() / 2;
 
     // Load the next page of posts
-    if(morePosts && !postRequest && scrollPos >= scrollHeight - threshold) {
+    if (morePosts && !postRequest && scrollPos >= scrollHeight - threshold) {
       NProgress.start();
       getPosts(currentPage + 1)
         .then(NProgress.done)
@@ -206,10 +205,8 @@ $(() => {
     // Apply filters
     .find(':checkbox').on('change', () => {
       let hasFilter = $('#post-filter :checked').length > 0;
-
       // Toggle filter icon
       $('#post-filter').toggleClass('active', hasFilter);
-
       // Update posts
       getPosts(1).then(() => {
         // Trigger UI update
@@ -218,11 +215,11 @@ $(() => {
     });
 
   // Keep the filter dropdown on screen
-  $('#post-filter').on('shown.bs.dropdown', function() {
+  $('#post-filter').on('shown.bs.dropdown', function () {
     let dropdown = $(this).find('.dropdown-menu');
 
     $(dropdown)
-      // Remove alignment class to check position
+    // Remove alignment class to check position
       .removeClass('dropdown-menu-right')
       // Assign alignment class if the menu is off-screen
       .toggleClass('dropdown-menu-right', $(dropdown).is(':off-right'));
@@ -232,7 +229,7 @@ $(() => {
   $('[data-open]').on('click', () => {
     let url = $('#posts').selectable('getElements', true)[0].getAttribute('data-open-action');
 
-    if(url) {
+    if (url) {
       location.href = url;
     }
   });
@@ -241,13 +238,13 @@ $(() => {
   $('[data-edit]').on('click', () => {
     let url = $('#posts').selectable('getElements', true)[0].getAttribute('data-edit-action');
 
-    if(url) {
+    if (url) {
       location.href = url;
     }
   });
 
   // Delete
-  $('[data-delete]').on('click', function() {
+  $('[data-delete]').on('click', function () {
     let selectedPosts = $('#posts').selectable('getElements', true);
     let confirm = $(this).attr('data-confirm');
     let numPosts = selectedPosts.length;
@@ -266,19 +263,19 @@ $(() => {
           url: url,
           type: 'DELETE'
         })
-        .done(() => {
-          let post = $('#posts').selectable('getElements', id);
+          .done(() => {
+            let post = $('#posts').selectable('getElements', id);
 
-          // Remove the post from the list
-          $(post)
-            .animateCSS('fadeOut', 300, function() {
-              $(this).remove();
+            // Remove the post from the list
+            $(post)
+              .animateCSS('fadeOut', 300, function () {
+                $(this).remove();
 
-              // Update the selectable control
-              $('#posts').selectable('change');
-            });
-        })
-        .always(() => NProgress.set(++numDeleted / numPosts));
+                // Update the selectable control
+                $('#posts').selectable('change');
+              });
+          })
+          .always(() => NProgress.set(++numDeleted / numPosts));
       });
     });
   });

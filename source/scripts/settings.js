@@ -38,22 +38,24 @@ $(() => {
       .on('uploadComplete.imageControl', () => NProgress.done(false));
   });
 
-  // Handle theme selection
-  $('#theme').selectable({
-    items: '.card',
-    click: (value, el, event) => {
-      $('#theme :input').val(value);
-
-      // Don't let the selection get removed
-      if($(el).is('.selected')) {
-        event.preventDefault();
-      }
-    },
-    doubleClick: (value, el, event) => {
-      // Don't let the selection get removed
-      event.preventDefault();
-    }
+  $('#theme').dblclick((event) => {
+    // Don't let the selection get removed
+    event.preventDefault();
   });
+
+  // Handle theme selection
+  $('#theme')
+    .selectable({
+      items: '.card',
+      click: (value, el, event) => {
+        $('#theme :input').val(value);
+
+        // Don't let the selection get removed
+        if($(el).is('.selected')) {
+          event.preventDefault();
+        }
+      }
+    });
 
   // Create a backup
   $('[data-create-backup]').on('click', function() {

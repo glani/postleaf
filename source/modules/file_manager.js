@@ -290,7 +290,9 @@ $(() => {
         let elements = $('#file-manager-items').selectable('getElements');
         let selectedElements = $('#file-manager-items').selectable('getElements', true);
         let copyText = values.length === 1 ? $(selectedElements[0]).attr('data-copy-action') : '';
-
+        $(elements).dblclick((event) => {
+          select(parseItemJson(event.currentTarget))
+        });
         // Toggle toolbar buttons when selection changes
         $('[data-file-manager-download]').prop('disabled', values.length !== 1);
         $('[data-file-manager-copy]').prop('disabled', values.length !== 1);
@@ -304,8 +306,7 @@ $(() => {
 
         // Set copy text
         $('[data-file-manager-copy]').attr('data-clipboard-text', copyText);
-      },
-      doubleClick: (value, el) => select(parseItemJson(el))
+      }
     });
 
   // Remove selection when clicking outside of an item

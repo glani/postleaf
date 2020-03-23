@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    originalPath: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     mimeType: {
       type: DataTypes.STRING,
       allowNull: false

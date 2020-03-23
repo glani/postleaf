@@ -9,6 +9,13 @@ $(() => {
   let searchAction = $('[data-search]').attr('data-action');
 
   // Handle user selection
+  $('#users > .tag-card').dblclick((event) => {
+    let el = $(event.currentTarget).find('.card');
+    let url = el && el.attr('data-edit-action');
+    if(url) {
+      location.href = url;
+    }
+  });
   $('#users')
     .selectable({
       items: '.card',
@@ -23,13 +30,6 @@ $(() => {
         // Toggle users/empty state
         $('#users').prop('hidden', elements.length === 0);
         $('#empty').prop('hidden', elements.length !== 0);
-      },
-      doubleClick: (value, el) => {
-        let url = $(el).attr('data-edit-action');
-
-        if(url) {
-          location.href = url;
-        }
       }
     })
     // Trigger change immediately to update initial view

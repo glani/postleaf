@@ -2,6 +2,7 @@
 
 // Node modules
 const Url = require('url');
+const Path = require('path');
 
 //
 // Builds a query string from an object or string.
@@ -65,7 +66,7 @@ module.exports = (Settings) => {
         path = options.path;
       }
 
-      let url = '/' + process.env.APP_ADMIN_SLUG;
+      let url = self.folder() + '/' + process.env.APP_ADMIN_SLUG;
       if(path) url += '/' + encodeURI(path || '').replace(/^\/+/, '');
       if(options.query) url = appendQueryString(url, options.query);
       if(options.hash) url += '#' + options.hash;
@@ -91,7 +92,7 @@ module.exports = (Settings) => {
         path = options.path;
       }
 
-      let url = '/' + process.env.APP_API_SLUG;
+      let url = self.folder() + '/' + process.env.APP_API_SLUG;
       if(path) url += '/' + encodeURI(path || '').replace(/^\/+/, '');
       if(options.query) url = appendQueryString(url, options.query);
 
@@ -117,7 +118,7 @@ module.exports = (Settings) => {
       }
 
       if(typeof username === 'undefined') throw new Error('Missing argument `username` MakeUrl.author().');
-      let url = '/' + process.env.APP_AUTHOR_SLUG + '/' + encodeURIComponent(username);
+      let url = self.folder() + '/' + process.env.APP_AUTHOR_SLUG + '/' + encodeURIComponent(username);
       if(options.page > 1) url += '/' + process.env.APP_PAGE_SLUG + '/' + options.page;
 
       return options.absolute ? self.absolute(url) : url;
@@ -132,7 +133,7 @@ module.exports = (Settings) => {
     //
     blog: (options) => {
       options = options || {};
-      let url = Settings.homepage ? '/' + process.env.APP_BLOG_SLUG : '/';
+      let url = self.folder() + (Settings.homepage ? '/' + process.env.APP_BLOG_SLUG : '/');
       if(options.page > 1) url = url.replace(/\/+$/, '') + '/' + process.env.APP_PAGE_SLUG + '/' + options.page;
 
       return options.absolute ? self.absolute(url) : url;
@@ -148,7 +149,7 @@ module.exports = (Settings) => {
     feed: (options) => {
       options = options || {};
       let format = options.format === 'json' ? 'json' : 'rss';
-      let url = '/' + process.env.APP_FEED_SLUG + '/' + format;
+      let url = self.folder() + ('/' + process.env.APP_FEED_SLUG + '/' + format);
 
       return options.absolute ? self.absolute(url) : url;
     },
@@ -171,7 +172,7 @@ module.exports = (Settings) => {
       }
 
       if(typeof slug === 'undefined') throw new Error('Missing argument `slug` MakeUrl.post().');
-      let url = '/' + encodeURIComponent(slug);
+      let url = self.folder() + '/' + encodeURIComponent(slug);
 
       return options.absolute ? self.absolute(url) : url;
     },
@@ -201,7 +202,7 @@ module.exports = (Settings) => {
       }
 
       options = options || {};
-      let url = '/' + encodeURI(path || '').replace(/^\/+/, '');
+      let url = self.folder() + '/' + encodeURI(path || '').replace(/^\/+/, '');
       if(options.query) url = appendQueryString(url, options.query);
       if(options.hash) url += '#' + options.hash;
 
@@ -226,7 +227,7 @@ module.exports = (Settings) => {
         search = options.search;
       }
 
-      let url = '/' + process.env.APP_SEARCH_SLUG;
+      let url = self.folder() + '/' + process.env.APP_SEARCH_SLUG;
       if(options.page > 1 && search) url += '/' + process.env.APP_PAGE_SLUG + '/' + options.page;
       if(search) url += '?s=' + encodeURIComponent(search);
 
@@ -252,7 +253,7 @@ module.exports = (Settings) => {
       }
 
       if(typeof slug === 'undefined') throw new Error('Missing argument `slug` MakeUrl.tag().');
-      let url = '/' + process.env.APP_TAG_SLUG + '/' + encodeURIComponent(slug);
+      let url = self.folder() + '/' + process.env.APP_TAG_SLUG + '/' + encodeURIComponent(slug);
       if(options.page > 1) url += '/' + process.env.APP_PAGE_SLUG + '/' + options.page;
 
       return options.absolute ? self.absolute(url) : url;
@@ -276,10 +277,22 @@ module.exports = (Settings) => {
         path = options.path;
       }
 
-      let url = '/themes/' + (options.themeId || Settings.theme);
+      let url = self.folder() + '/themes/' + (options.themeId || Settings.theme);
       if(path) url += '/' + encodeURI(path || '').replace(/^\/+/, '');
 
       return options.absolute ? self.absolute(url) : url;
+    },
+
+    folder: () => {
+      return process.env.APP_FOLDER ? '/' + process.env.APP_FOLDER : '';
+    },
+
+    joinFolderPath: (path) => {
+      let folder = self.folder();
+      if (path && folder && folder.length > 0) {
+        return Path.join(folder, path);
+      }
+      return path;
     }
 
   };

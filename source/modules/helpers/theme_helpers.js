@@ -951,4 +951,34 @@ module.exports = (dust) => {
     return chunk.write(title);
   };
 
+  //
+  // Outputs the post sub title. If no post is specified, the title will be fetched from the current
+  // context.
+  //
+  // Examples:
+  //
+  //  {@subtitle/}
+  //  {@subtitle editable="true"/}
+  //
+  dust.helpers.subTitle = (chunk, context, bodies, params) => {
+    let isEditor = context.options.locals.isEditor;
+    let editable = context.resolve(params.editable) === 'true';
+    let post = context.resolve(params.post);
+    let subtitle = post ? post.subtitle : context.get('subtitle') || '';
+
+    // Add editable wrappers when the post is being rendered in the editor
+    if(isEditor && editable) {
+      subtitle = `
+        <div
+          data-postleaf-region="subtitle"
+          data-postleaf-html="` + He.encode(subtitle, { useNamedReferences: true }) + `"
+        >
+          ` + subtitle + `
+        </div>
+      `;
+    }
+
+    return chunk.write(subtitle);
+  };
+
 };

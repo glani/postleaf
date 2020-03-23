@@ -21,6 +21,30 @@ const self = {
     let prevPageUrl = urlCallback && prevPage ? urlCallback(prevPage) : null;
     let nextPageUrl = urlCallback && nextPage ? urlCallback(nextPage) : null;
 
+    // let displayPagesValue = parseInt(displayPages) || 1;;
+    let displayPagesValue = 2;
+    const num = displayPagesValue / 2;
+
+    let pages = [];
+    if (currentPage - num - 1 >= 0) {
+      let firstPage = currentPage - num - 1;
+      pages.push({'num': firstPage, 'value': 'l', 'url': urlCallback && urlCallback(firstPage + 1)});
+    }
+    pages.push({'num': 0, 'value': 'l', 'url': urlCallback && urlCallback(10)});
+
+    for (let i = 0; i < totalPages; i++) {
+      if (i <= currentPage - num - 1 || i >= currentPage + num - 1) {
+        continue;
+      }
+      pages.push({'num': i, 'value': i + 1, 'url': urlCallback && urlCallback(i + 1)});
+    }
+
+    let lastPage = currentPage - 1 + num;
+    if (lastPage < totalPages - 1) {
+      pages.push({'num': lastPage, 'value': 'r', 'url': urlCallback && urlCallback(lastPage + 1) });
+    }
+    pages.push({'num': 0, 'value': 'r', 'url': urlCallback && urlCallback(10) });
+
     return {
       totalItems,
       itemsPerPage,
@@ -29,7 +53,8 @@ const self = {
       nextPage,
       nextPageUrl,
       prevPage,
-      prevPageUrl
+      prevPageUrl,
+      pages
     };
   }
 

@@ -1,9 +1,9 @@
 .box{background:#fff;border-radius:.25rem;box-shadow:0 .1rem .1rem rgba(39,47,51,.05);padding:3rem;margin-bottom:2rem}
 .box>:last-child{margin-bottom:0}
-@media (max-width:767px){
+@media (max-width:767.98px){
 .box{padding:2rem}
 }
-@media (max-width:575px){
+@media (max-width:575.98px){
 .box{padding:1.5rem}
 }
 #sidebar{width:12rem;float:left}
@@ -12,11 +12,11 @@
 #settings-form h3:not(:first-child){margin-top:4rem}
 #about h3:first-child{color:#8aaab9}
 #about h3:first-child img{width:15rem;vertical-align:top}
-@media (max-width:991px){
+@media (max-width:991.98px){
 #about td:first-child{display:block}
 #about td:last-child{border-top:none;display:block}
 }
-@media (max-width:767px){
+@media (max-width:767.98px){
 #sidebar{width:100%;float:none;margin-bottom:1rem}
 #settings-form{margin:0}
 }

@@ -1,13 +1,18 @@
+// fix compilation error
+
+
 @import "partials/variables";
 
 // Font Awesome
 @import "font-awesome/scss/font-awesome";
 
 // Bootstrap
-@import "bootstrap/scss/custom";
+
+@import "bootstrap/scss/functions";
+//@import "bootstrap/scss/custom";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
-@import "bootstrap/scss/normalize";
+//@import "bootstrap/scss/normalize";
 @import "bootstrap/scss/print";
 @import "bootstrap/scss/reboot";
 @import "bootstrap/scss/type";

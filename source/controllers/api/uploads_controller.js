@@ -175,13 +175,15 @@ const self = {
         });
       }
 
+      let path = req.file.path.substring(uploadRoot.length);
       let file = {
         userId: User.id,
         filename: req.file.filename,
         // Extension should be lowercase and without a dot
         extension: Path.extname(req.file.filename).toLowerCase().replace(/^\./, ''),
         // Path should be relative to the parent of the uploads dir. Example: /uploads/2017/01/image.png
-        path: req.file.path.substring(uploadRoot.length),
+        path: path,
+        originalPath: path,
         mimeType: req.file.mimetype,
         size: req.file.size,
         width: null,
@@ -217,11 +219,14 @@ const self = {
               // Get updated file size since stripping exif data likely changed it
               file.size = Fs.statSync(req.file.path).size;
 
+              const MakeUrl = require(Path.join(__basedir, 'source/modules/make_url.js'))(req.app.locals.Settings);
+
+              file.path = MakeUrl.joinFolderPath(file.originalPath);
               // Add it to the database and send a response
               models.upload
                 .create(file)
                 .then((upload) => res.json({ upload: upload }))
-                .catch(() => {
+                .catch((err) => {
                   res.status(HttpCodes.BAD_REQUEST);
                   return next(I18n.term('sorry_but_i_cant_seem_to_process_this_image'));
                 });

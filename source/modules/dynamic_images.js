@@ -140,7 +140,8 @@ const self = {
     if(!['image/gif', 'image/jpeg', 'image/png'].includes(mimeType)) return next();
 
     // Is the URL signed?
-    if(!SignedUrl.verify(req.originalUrl, process.env.AUTH_SECRET)) {
+    const MakeUrl = require(Path.join(__basedir, 'source/modules/make_url.js'))(req.app.locals.Settings);
+    if(!SignedUrl.verify(MakeUrl.joinFolderPath(req.originalUrl), process.env.AUTH_SECRET)) {
       return res.status(HttpCodes.FORBIDDEN).end();
     }
 

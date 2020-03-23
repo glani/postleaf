@@ -45,6 +45,21 @@
                 {/templates}
               </div>
             </div>
+
+            <div class="row">
+            {! SubTitle !}
+              <div class="col-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="subtitle"
+                  name="subtitle"
+                  placeholder="{Settings.defaultPostSubTitle}"
+                  value="{Request.query.subtitle}"
+                >
+              </div>
+              <div class="col-4 text-right"></div>
+            </div>
           </div>
 
           {! Content !}
