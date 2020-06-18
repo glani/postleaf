@@ -84,7 +84,7 @@
               <div
                 class="image-control"
                 data-upload-action="{@url type="api" path="uploads"/}"
-                {?Settings.cover}style="background-image: url('{@url path=Settings.cover/}');"{/Settings.cover}
+                {?Settings.cover}style="background-image: url('{Settings.cover}');"{/Settings.cover}
               >
                 {! Hidden input !}
                 <input type="hidden" name="cover" value="{Settings.cover}">
@@ -122,7 +122,7 @@
                   <div
                     class="image-control image-control-sm image-control-contain"
                     data-upload-action="{@url type="api" path="uploads"/}"
-                    {?Settings.logo}style="background-image: url('{@url path=Settings.logo/}');"{/Settings.logo}
+                    {?Settings.logo}style="background-image: url('{Settings.logo}');"{/Settings.logo}
                   >
                     {! Hidden input !}
                     <input type="hidden" name="logo" value="{Settings.logo}">
@@ -160,7 +160,7 @@
                     class="image-control image-control-sm image-control-contain"
                     data-upload-action="{@url type="api" path="uploads"/}"
                     data-thumbnail="500"
-                    {?Settings.favicon}style="background-image: url('{@url path=Settings.favicon/}');"{/Settings.favicon}
+                    {?Settings.favicon}style="background-image: url('{Settings.favicon}');"{/Settings.favicon}
                   >
                     {! Hidden input !}
                     <input type="hidden" name="favicon" value="{Settings.favicon}">

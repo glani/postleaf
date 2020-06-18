@@ -48,6 +48,16 @@
             <input class="form-control" type="text" name="slug" id="slug" value="{post.slug}">
           </div>
 
+          {! Enable comments !}
+          <div class="form-group">
+            <label for="enableComments">{@i18n term="enableComments"/}</label>
+            <input class="form-control" type="checkbox" name="enableComments" id="enableComments" value="1"
+                   {@isTrue key=post.enableComments}
+                   checked="checked"
+                   {/isTrue}
+            >
+          </div>
+
           <div class="row">
             {! Date !}
             <div class="col-6">

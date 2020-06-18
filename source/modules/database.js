@@ -53,19 +53,20 @@ module.exports = function(options) {
         return settings;
       }
 
+      const MakeUrl = require(Path.join(__basedir, 'source/modules/make_url.js'))({});
       // Otherwise, write default settings and return them
       return Promise
         .all([
-          setting.create({ key: 'cover', value: '/assets/images/sample_cover.jpg' }),
+          setting.create({ key: 'cover', value: MakeUrl.folder() + '/assets/images/sample_cover.jpg' }),
           setting.create({ key: 'defaultPostContent', value: 'Start writing here…' }),
           setting.create({ key: 'defaultPostTitle', value: 'Untitled Post' }),
           setting.create({ key: 'defaultPostSubTitle', value: 'Untitled Subtitle' }),
-          setting.create({ key: 'favicon', value: '/assets/images/postleaf_logo.svg' }),
+          setting.create({ key: 'favicon', value: MakeUrl.folder() + '/assets/images/postleaf_logo.svg' }),
           setting.create({ key: 'footCode', value: '' }),
           setting.create({ key: 'headCode', value: '' }),
           setting.create({ key: 'homepage', value: '' }),
           setting.create({ key: 'language', value: 'en-us' }),
-          setting.create({ key: 'logo', value: '/assets/images/postleaf_wordmark.svg' }),
+          setting.create({ key: 'logo', value: MakeUrl.folder() + '/assets/images/postleaf_wordmark.svg' }),
           setting.create({ key: 'postsPerPage', value: 5 }),
           setting.create({ key: 'tagline', value: 'Go forth and create!' }),
           setting.create({ key: 'theme', value: 'empower-theme' }),

@@ -171,6 +171,36 @@ module.exports = (dust) => {
   };
 
   //
+  // Check value is true
+  //
+  // Attributes:
+  //
+  //  - key - The value to check.
+  //
+  // Examples:
+  //
+  //  {@isFalse key=myVariable} ==> true | false
+  //
+  dust.helpers.isTrue = function(chunk, context, bodies, params) {
+    return params.key === true;
+  };
+
+  //
+  // Check value is false
+  //
+  // Attributes:
+  //
+  //  - key - The value to check.
+  //
+  // Examples:
+  //
+  //  {@isFalse key=myVariable} ==> true | false
+  //
+  dust.helpers.isFalse = function(chunk, context, bodies, params) {
+    return params.key === false;
+  };
+
+  //
   // Formats a number.
   //
   // Attributes:

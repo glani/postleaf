@@ -83,6 +83,7 @@ module.exports = {
         return models.post
           .create({
             slug: 'welcome-to-postleaf',
+            enableComments: true,
             userId: owner.id,
             publishedAt: '2017-04-01 00:00:00',
             title: 'Welcome to Postleaf',

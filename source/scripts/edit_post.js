@@ -528,6 +528,7 @@ $(() => {
       subtitle: subTitleEditor.isReady ? subTitleEditor.getContent() : null,
       content: contentEditor.isReady ? contentEditor.getContent() : null,
       slug: $('#slug').val() || Postleaf.Slug(titleEditor.getContent()),
+      enableComments: $('#enableComments').is(':checked'),
       'published-at': $('#pub-date').val() + ' ' + $('#pub-time').val(),
       template: $('#template').val(),
       tags: $('#tags').get(0).selectize.items,

@@ -74,6 +74,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    enableComments: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
     content: DataTypes.TEXT,
     image: DataTypes.TEXT,
     metaTitle: DataTypes.TEXT,

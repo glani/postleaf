@@ -24,6 +24,7 @@ function getSearchIndexObject(userObject) {
       userObject.email,
       userObject.username,
       userObject.bio,
+      userObject.profession,
       userObject.location
     ].join(' ')
   };
@@ -96,7 +97,11 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     location: DataTypes.STRING,
     bio: DataTypes.TEXT,
-    website: DataTypes.STRING
+    profession: DataTypes.STRING,
+    website: DataTypes.STRING,
+    facebook: DataTypes.STRING,
+    twitter: DataTypes.STRING,
+    instagram: DataTypes.STRING
   }, {
     // Class methods
     classMethods: {

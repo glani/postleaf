@@ -179,6 +179,10 @@ module.exports = {
         role: req.body.role,
         website: req.body.website,
         location: req.body.location,
+        profession: req.body.profession,
+        instagram: req.body.instagram,
+        twitter: req.body.twitter,
+        facebook: req.body.facebook,
         bio: req.body.bio,
         avatar: req.body.avatar,
         image: req.body.image
@@ -341,6 +345,10 @@ module.exports = {
         if(typeof req.body.role !== 'undefined') user.role = req.body.role;
         if(typeof req.body.website !== 'undefined') user.website = req.body.website;
         if(typeof req.body.location !== 'undefined') user.location = req.body.location;
+        if(typeof req.body.twitter !== 'undefined') user.twitter = req.body.twitter;
+        if(typeof req.body.instagram !== 'undefined') user.instagram = req.body.instagram;
+        if(typeof req.body.facebook !== 'undefined') user.facebook = req.body.facebook;
+        if(typeof req.body.profession !== 'undefined') user.profession = req.body.profession;
         if(typeof req.body.bio !== 'undefined') user.bio = req.body.bio;
         if(typeof req.body.avatar !== 'undefined') user.avatar = req.body.avatar;
         if(typeof req.body.image !== 'undefined') user.image = req.body.image;

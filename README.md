@@ -43,6 +43,10 @@ To install Postleaf in a development environment, follow these instructions.
   sudo npm install -g gulp-cli
   gulp build
   ```
+Alternative way to build is:
+  ```
+  node ./node_modules/gulp/bin/gulp.js build
+  ```
 4. Now launch the app:
   ```
   node app.js

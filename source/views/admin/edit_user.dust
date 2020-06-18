@@ -206,6 +206,18 @@
               </p>
             </div>
 
+            {! Profession and something new !}
+            <div class="row">
+              {! profession !}
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="profession">{@i18n term="profession"/}</label>
+                  <input class="form-control" type="text" name="profession" id="profession" value="{user.profession}">
+                </div>
+              </div>
+              <div class="col-lg-6"></div>
+            </div>
+
             {! Avatar and image !}
             <div class="row">
               {! Avatar !}

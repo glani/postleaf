@@ -243,6 +243,7 @@ module.exports = {
         // Create the post
         return models.post.create({
           slug: req.body.slug,
+          enableComments: (typeof req.body.enableComments !== 'undefined'),
           userId: req.body['user-id'],
           publishedAt: new Moment.tz(req.body['published-at'], Settings.timeZone).tz('UTC'),
           title: req.body.title,
@@ -411,6 +412,7 @@ module.exports = {
 
         // Set fields
         if(typeof req.body.slug !== 'undefined') post.slug = req.body.slug;
+        post.enableComments = (typeof req.body.enableComments !== 'undefined' && req.body.enableComments);
         if(typeof req.body['user-id'] !== 'undefined') post.userId = req.body['user-id'];
         if(typeof req.body['published-at'] !== 'undefined') {
           post.publishedAt = new Moment.tz(req.body['published-at'], Settings.timeZone).tz('UTC');
@@ -585,6 +587,7 @@ module.exports = {
             // Create a blank post object
             post = {
               slug: '',
+              enableComments: true,
               userId: User.id,
               author: User,
               publishedAt: '',
@@ -614,6 +617,7 @@ module.exports = {
         // Merge custom post data
         if(customPostData) {
           if(typeof customPostData.slug !== 'undefined') post.slug = customPostData.slug;
+          if(typeof customPostData.enableComments !== 'undefined') post.enableComments = customPostData.enableComments;
           if(typeof customPostData['user-id'] !== 'undefined') post.userId = customPostData['user-id'];
           if(typeof customPostData['published-at'] !== 'undefined') {
             post.publishedAt = new Moment.tz(customPostData['published-at'], Settings.timeZone).tz('utc');
