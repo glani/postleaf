@@ -108,6 +108,7 @@ module.exports = (dust) => {
   //
   // Attributes:
   //
+  //  - key - a key of param to retrieve content.
   //  - content - a string of HTML content to obtain the excerpt from. If omitted, the current post
   //    context will be used.
   //  - paragraphs - the number of paragraphs to use in the excerpt.
@@ -121,7 +122,8 @@ module.exports = (dust) => {
   //  {@excerpt content="<p>...</p>" paragraphs="2" words="50" tags="a,em,strong"/}
   //
   dust.helpers.excerpt = (chunk, context, bodies, params) => {
-    let content = context.resolve(params.content) || context.get('content') || '';
+    let key = params.key || 'content';
+    let content = context.resolve(params.content) || context.get(key) || '';
     let paragraphs = context.resolve(params.paragraphs) || 1;
     let words = parseInt(context.resolve(params.words));
     let tags = context.resolve(params.tags) || 'a,abbr,b,bdi,bdo,blockquote,br,cite,code,data,dd,del,dfn,dl,dt,em,i,ins,kbd,li,mark,ol,p,pre,q,rp,rt,rtc,ruby,s,samp,small,span,strong,sub,sup,time,u,ul,var,wbr';
@@ -130,6 +132,10 @@ module.exports = (dust) => {
 
     // Get paragraphs from content (top level matches only)
     let p = $('p:not(* > p)').slice(0, paragraphs);
+
+    if (p.length === 0) {
+      return chunk.write($.html());
+    }
 
     // Concatenate matching paragraphs
     $(p).each((index, el) => {
@@ -952,7 +958,46 @@ module.exports = (dust) => {
   };
 
   //
-  // Outputs the post sub title. If no post is specified, the title will be fetched from the current
+  // Outputs the post introduction. If no post is specified, the introduction will be fetched from the current
+  // context. It is hidden in the common mode by default( Used only for saving ).
+  //
+  // Examples:
+  //
+  //  {@introduction/}
+  //  {@introduction editable="true"/}
+  //  {@introduction editable="true"/}
+  //
+  dust.helpers.introduction = (chunk, context, bodies, params) => {
+    let isEditor = context.options.locals.isEditor;
+    let editable = context.resolve(params.editable) === 'true';
+    let show = context.resolve(params.show) === 'true';
+    let post = context.resolve(params.post);
+    let introduction = post ? post.introduction : context.get('introduction') || '';
+
+    // Add editable wrappers when the post is being rendered in the editor
+    if(isEditor && editable) {
+      introduction = post ? post.introduction : context.get('introduction') || '';
+      introduction = `
+        <hr/>
+        <div
+          data-postleaf-region="introduction"
+          data-postleaf-html="` + He.encode(introduction, { useNamedReferences: true }) + `"
+        >
+          ` + introduction + `
+        </div>
+        <hr/>
+      `;
+    } else {
+      if (!show) {
+        introduction = '';
+      }
+    }
+
+    return chunk.write(introduction);
+  };
+
+  //
+  // Outputs the post sub title. If no post is specified, the sub title will be fetched from the current
   // context.
   //
   // Examples:
@@ -964,7 +1009,7 @@ module.exports = (dust) => {
     let isEditor = context.options.locals.isEditor;
     let editable = context.resolve(params.editable) === 'true';
     let post = context.resolve(params.post);
-    let subtitle = post ? post.subtitle : context.get('subtitle') || '';
+    let subtitle = post ? post.subtitle : context.get('subTitle') || '';
 
     // Add editable wrappers when the post is being rendered in the editor
     if(isEditor && editable) {

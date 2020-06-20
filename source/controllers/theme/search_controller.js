@@ -20,6 +20,7 @@ module.exports = {
     const Settings = req.app.locals.Settings;
     let page = req.params.page || 1;
     let limit = Settings.postsPerPage;
+    let paginationDisplayNumber = Settings.paginationDisplayNumber || 9;
     let offset = limit * (page - 1);
 
     models.post
@@ -41,7 +42,7 @@ module.exports = {
         }
 
         // Assemble view data
-        let pagination = Paginate.get(posts.count, limit, page, (page) => {
+        let pagination = Paginate.get(posts.count, limit, page, paginationDisplayNumber, (page) => {
           return MakeUrl.search(req.query.s, { absolute: true, page: page });
         });
         let websiteImage = Settings.cover ? MakeUrl.raw(Settings.cover, { absolute: true }) : null;

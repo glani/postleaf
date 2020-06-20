@@ -47,6 +47,17 @@ Alternative way to build is:
   ```
   node ./node_modules/gulp/bin/gulp.js build
   ```
+
+  ```
+    unset JS_FILE
+  ```
+
+  ```
+    export JS_FILE=edit_post
+    node ./node_modules/gulp/bin/gulp.js build
+  ```
+
+
 4. Now launch the app:
   ```
   node app.js

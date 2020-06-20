@@ -247,6 +247,8 @@ module.exports = {
           userId: req.body['user-id'],
           publishedAt: new Moment.tz(req.body['published-at'], Settings.timeZone).tz('UTC'),
           title: req.body.title,
+          subTitle: req.body.subtitle,
+          introduction: req.body.introduction,
           content: req.body.content,
           image: req.body.image,
           metaTitle: req.body['meta-title'],
@@ -418,6 +420,8 @@ module.exports = {
           post.publishedAt = new Moment.tz(req.body['published-at'], Settings.timeZone).tz('UTC');
         }
         if(typeof req.body.title !== 'undefined') post.title = req.body.title;
+        if(typeof req.body.subtitle !== 'undefined') post.subTitle = req.body.subtitle;
+        if(typeof req.body.introduction !== 'undefined') post.introduction = req.body.introduction;
         if(typeof req.body.content !== 'undefined') post.content = req.body.content;
         if(typeof req.body.image !== 'undefined') post.image = req.body.image;
         if(typeof req.body['meta-title'] !== 'undefined') post.metaTitle = req.body['meta-title'];
@@ -623,6 +627,8 @@ module.exports = {
             post.publishedAt = new Moment.tz(customPostData['published-at'], Settings.timeZone).tz('utc');
           }
           if(typeof customPostData.title !== 'undefined') post.title = customPostData.title;
+          if(typeof customPostData.subTitle !== 'undefined') post.subTitle = customPostData.subTitle;
+          if(typeof customPostData.introduction !== 'undefined') post.introduction = customPostData.introduction;
           if(typeof customPostData.content !== 'undefined') post.content = customPostData.content;
           if(typeof customPostData.image !== 'undefined') post.image = customPostData.image;
           if(typeof customPostData['meta-title'] !== 'undefined') post.metaTitle = customPostData['meta-title'];

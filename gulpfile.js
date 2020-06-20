@@ -32,7 +32,9 @@ let images = {
 };
 
 let scripts = {
-  source: Path.join(__dirname, 'source/scripts/**/*.js'),
+  source:
+    process.env.JS_FILE ? Path.join(__dirname, 'source/scripts/**/' + process.env.JS_FILE + '.js') :
+      Path.join(__dirname, 'source/scripts/**/*.js'),
   target: Path.join(__dirname, 'assets/js')
 };
 
@@ -178,7 +180,11 @@ Gulp.task('clean:images', 'Delete generated images.', () => {
 
 // Clean scripts
 Gulp.task('clean:scripts', 'Delete generated scripts.', () => {
-  return Del(scripts.target);
+  if (!process.env.JS_FILE) {
+    return Del(scripts.target);
+  } else {
+    return Del(Path.join(scripts.target, process.env.JS_FILE + '*'));
+  }
 });
 
 // Clean styles

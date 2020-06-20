@@ -61,6 +61,7 @@ module.exports = function(options) {
           setting.create({ key: 'defaultPostContent', value: 'Start writing here…' }),
           setting.create({ key: 'defaultPostTitle', value: 'Untitled Post' }),
           setting.create({ key: 'defaultPostSubTitle', value: 'Untitled Subtitle' }),
+          setting.create({ key: 'defaultPostIntroduction', value: 'Untitled Post Introduction' }),
           setting.create({ key: 'favicon', value: MakeUrl.folder() + '/assets/images/postleaf_logo.svg' }),
           setting.create({ key: 'footCode', value: '' }),
           setting.create({ key: 'headCode', value: '' }),

@@ -278,6 +278,7 @@ $(() => {
       { code: '{@foot/}', selector: '[data-postleaf-editor="scripts"]' },
       { code: '{@title editable="true"/}', selector: '[data-postleaf-region="title"]' },
       { code: '{@subTitle editable="true"/}', selector: '[data-postleaf-region="subtitle"]' },
+      { code: '{@introduction editable="true"/}', selector: '[data-postleaf-region="introduction"]' },
       { code: '{@content editable="true/}', selector: '[data-postleaf-region="content"]' }
     ]) {
       if(!$(helper.selector, frameDoc).length) {
@@ -335,6 +336,24 @@ $(() => {
       }
     });
 
+    // introduction region
+    introductionEditor = new Editor({
+      element: $('[data-postleaf-region="introduction"]', frameDoc).get(0),
+      baseUrl: $('#editor-frame').attr('data-base-url'),
+      convertMarkdown: true,
+      onDoubleClick: handleDoubleClick,
+      onKeyDown: handleKeyDown,
+      onPaste: handlePaste,
+      onSelectionChange: handleSelectionChange,
+      onFocus: () => {
+        previousEditor = introductionEditor;
+      },
+      placeholder: $('#editor-frame').attr('data-default-introduction'),
+      onReady: () => {
+        makeClean();
+      }
+    });
+
     // Content region
     contentEditor = new Editor({
       element: $('[data-postleaf-region="content"]', frameDoc).get(0),
@@ -346,6 +365,9 @@ $(() => {
       onKeyDown: handleKeyDown,
       onPaste: handlePaste,
       onSelectionChange: handleSelectionChange,
+      onFocus: () => {
+        previousEditor = contentEditor;
+      },
       onReady: () => {
         makeClean();
         disableToolbar(false);
@@ -421,6 +443,8 @@ $(() => {
       //
       let title = titleEditor.element;
       let content = contentEditor.element;
+      let subTitle = subTitleEditor.element;
+      let introduction = introductionEditor.element;
       let form = $('<form>');
 
       // Remove any pending requests that might still be around
@@ -443,7 +467,8 @@ $(() => {
 
           // Reinsert title/content elements
           $('[data-postleaf-region="title"]', frameDoc).replaceWith(title);
-          $('[data-postleaf-region="subtitle"]', frameDoc).replaceWith(subTitleEditor);
+          $('[data-postleaf-region="subtitle"]', frameDoc).replaceWith(subTitle);
+          $('[data-postleaf-region="introduction"]', frameDoc).replaceWith(introduction);
           $('[data-postleaf-region="content"]', frameDoc).replaceWith(content);
 
           // Remove the frame
@@ -526,6 +551,7 @@ $(() => {
     return {
       title: titleEditor.isReady ? titleEditor.getContent() : null,
       subtitle: subTitleEditor.isReady ? subTitleEditor.getContent() : null,
+      introduction: introductionEditor.isReady ? introductionEditor.getContent() : null,
       content: contentEditor.isReady ? contentEditor.getContent() : null,
       slug: $('#slug').val() || Postleaf.Slug(titleEditor.getContent()),
       enableComments: $('#enableComments').is(':checked'),
@@ -761,11 +787,13 @@ $(() => {
   let wordCount = Cookie.get('wordCount') === 'true';
   let zenMode = false;
   let cleanState;
+  let previousEditor = null;
   let contentEditor;
   let dropzoneTimeout;
   let frameDoc;
   let titleEditor;
   let subTitleEditor;
+  let introductionEditor;
   let wordCountTimeout;
 
   // Initial load
@@ -782,7 +810,13 @@ $(() => {
     // Move focus to the content editor when opening a dropdown. This prevents text selections from
     // getting grayed out when working with dropdowns and ensures that formatters are applied to the
     // correct content region.
-    .on('shown.bs.dropdown', () => contentEditor.focus())
+    .on('shown.bs.dropdown', () => {
+      if (previousEditor) {
+        previousEditor.focus();
+      } else {
+        contentEditor.focus();
+      }
+    })
     // Keep dropdowns inside the viewport
     .on('shown.bs.dropdown', function() {
       let dropdown = $(this).find('.dropdown-menu');
@@ -1106,8 +1140,11 @@ $(() => {
           event.preventDefault();
           return;
         }
-
-        contentEditor.focus();
+        if (previousEditor) {
+          previousEditor.focus();
+        } else {
+          contentEditor.focus();
+        }
       });
 
     // Insert a link
@@ -1220,7 +1257,11 @@ $(() => {
           return;
         }
 
-        contentEditor.focus();
+        if (previousEditor) {
+          previousEditor.focus();
+        } else {
+          contentEditor.focus();
+        }
       });
 
     // Insert an image
@@ -1314,7 +1355,13 @@ $(() => {
         $('[data-embed="delete"]').prop('hidden', !embed.length);
       })
       .on('shown.panel', () => $('#embed-code').focus())
-      .on('hide.panel', () => contentEditor.focus());
+      .on('hide.panel', () => {
+        if (previousEditor) {
+          previousEditor.focus();
+        } else {
+          contentEditor.focus();
+        }
+      });
 
     // Insert an embed
     $('#embed-panel form').on('submit', (event) => {

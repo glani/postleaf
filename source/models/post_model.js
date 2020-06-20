@@ -78,6 +78,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
+    subTitle: {
+      type: DataTypes.TEXT
+    },
+    introduction: {
+      type: DataTypes.TEXT
+    },
     content: DataTypes.TEXT,
     image: DataTypes.TEXT,
     metaTitle: DataTypes.TEXT,
@@ -376,6 +382,8 @@ module.exports = (sequelize, DataTypes) => {
       //
       afterCreate: (item) => post.searchIndex.add(getSearchIndexObject(item)),
       afterDelete: (item) => post.searchIndex.remove({ id: item.id }),
+      // sequalize 5
+      // afterDestroy: (item) => post.searchIndex.remove({ id: item.id }),
       afterUpdate: (item) => post.searchIndex.update(getSearchIndexObject(item))
     }
   });

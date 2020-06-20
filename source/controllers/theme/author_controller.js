@@ -21,6 +21,7 @@ module.exports = {
     const models = sequelize.models;
     let page = req.params.page || 1;
     let limit = Settings.postsPerPage;
+    let paginationDisplayNumber = Settings.paginationDisplayNumber || 9;
     let offset = limit * (page - 1);
     let author;
 
@@ -76,7 +77,7 @@ module.exports = {
         }
 
         // Assemble view data
-        let pagination = Paginate.get(posts.count, limit, page, (page) => {
+        let pagination = Paginate.get(posts.count, limit, page, paginationDisplayNumber, (page) => {
           return MakeUrl.author(author.username, { absolute: true, page: page });
         });
         let authorUrl = MakeUrl.author(author.username, { absolute: true });

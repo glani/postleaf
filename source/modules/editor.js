@@ -396,8 +396,8 @@ function Editor(options) {
       this.isReady = true;
       this.onReady();
     })
-    .catch(() => {
-      throw new Error('Failed to initialize the editor');
+    .catch((e) => {
+      throw new Error('Failed to initialize the editor:' + e);
     });
 }
 

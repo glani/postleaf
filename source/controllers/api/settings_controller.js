@@ -77,6 +77,10 @@ module.exports = {
       settings.defaultPostSubTitle = req.body['default-post-subtitle'];
     }
 
+    if(typeof req.body['default-post-introduction'] !== 'undefined') {
+      settings.defaultPostIntroduction = req.body['default-post-introduction'];
+    }
+
     if(typeof req.body['default-post-content'] !== 'undefined') {
       settings.defaultPostContent = req.body['default-post-content'];
     }

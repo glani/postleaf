@@ -10,7 +10,7 @@ const self = {
   //  currentPage (int) - The current page (default 1).
   //  urlCallback (function) - A callback function accepting a page argument that generates a URL.
   //
-  get: (totalItems, itemsPerPage, currentPage, urlCallback) => {
+  get: (totalItems, itemsPerPage, currentPage, displayPagesValue, urlCallback) => {
     totalItems = parseInt(totalItems);
     itemsPerPage = parseInt(itemsPerPage) || 1;
     currentPage = parseInt(currentPage) || 1;
@@ -21,16 +21,17 @@ const self = {
     let prevPageUrl = urlCallback && prevPage ? urlCallback(prevPage) : null;
     let nextPageUrl = urlCallback && nextPage ? urlCallback(nextPage) : null;
 
-    // let displayPagesValue = parseInt(displayPages) || 1;;
-    let displayPagesValue = 2;
-    const num = displayPagesValue / 2;
+    let lastPageUrl = urlCallback && urlCallback(totalPages);
+    let firstPageUrl = urlCallback && urlCallback(1);
+
+    const num = Math.floor(displayPagesValue / 2);
 
     let pages = [];
     if (currentPage - num - 1 >= 0) {
       let firstPage = currentPage - num - 1;
       pages.push({'num': firstPage, 'value': 'l', 'url': urlCallback && urlCallback(firstPage + 1)});
     }
-    pages.push({'num': 0, 'value': 'l', 'url': urlCallback && urlCallback(10)});
+    // pages.push({'num': 0, 'value': 'l', 'url': urlCallback && urlCallback(10)});
 
     for (let i = 0; i < totalPages; i++) {
       if (i <= currentPage - num - 1 || i >= currentPage + num - 1) {
@@ -43,7 +44,7 @@ const self = {
     if (lastPage < totalPages - 1) {
       pages.push({'num': lastPage, 'value': 'r', 'url': urlCallback && urlCallback(lastPage + 1) });
     }
-    pages.push({'num': 0, 'value': 'r', 'url': urlCallback && urlCallback(10) });
+    // pages.push({'num': 0, 'value': 'r', 'url': urlCallback && urlCallback(10) });
 
     return {
       totalItems,
@@ -54,6 +55,8 @@ const self = {
       nextPageUrl,
       prevPage,
       prevPageUrl,
+      firstPageUrl,
+      lastPageUrl,
       pages
     };
   }

@@ -287,6 +287,8 @@ module.exports = (sequelize, DataTypes) => {
       //
       afterCreate: (item) => user.searchIndex.add(getSearchIndexObject(item)),
       afterDelete: (item) => user.searchIndex.remove({ id: item.id }),
+      // sequalize 5
+      // afterDestroy: (item) => user.searchIndex.remove({ id: item.id }),
       afterUpdate: (item) => user.searchIndex.update(getSearchIndexObject(item))
     }
   });
